@@ -1,5 +1,5 @@
 var assert = require('assert');
-var update = require('./');
+var update = require('./update');
 
 describe('update', function() {
 
@@ -21,7 +21,7 @@ describe('update', function() {
 
     it('changes the tree on the directive', function() {
       assert(state.a.c !== nextState.a.c);
-    })
+    });
 
     it('reuses state on different branches', function() {
       assert(state.unChanged === nextState.unChanged);
