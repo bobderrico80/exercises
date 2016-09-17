@@ -11,21 +11,21 @@ function debounce(callback, threshold) {
 
     // convert any passed in arguments to an array
     var args = Array.prototype.slice.call(arguments);
-    console.log(args);
 
-    // if there currently is not a timer running...
-    if (!timer) {
-      // wait for the threshold to pass, then execute the callback
-      timer = setTimeout(function() {
-        // call the callback with correct context.
-        callback.apply(self, args);
-        // reset the timer after calling the callback to allow the callback to
-        // run again after the threshold.
-        timer = undefined;
-      }, threshold);
+    // if there is already a timer running, clear it so we can set a new one.
+    if (timer) {
+      clearTimeout(timer);
     }
-  };
 
+    // set a timeout to call the callback after the threshold.
+    timer = setTimeout(function() {
+      // call the callback with correct context.
+      callback.apply(self, args);
+      // reset the timer after calling the callback to allow the callback to
+      // run again after the threshold.
+      timer = undefined;
+    }, threshold);
+  };
 }
 
 module.exports = debounce;
