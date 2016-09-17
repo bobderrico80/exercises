@@ -39,7 +39,7 @@ describe('debounce', function() {
     }, 45);
   });
 
-  xit('gets called with context', function(done) {
+  it('gets called with context', function(done) {
     var ctx;
     var debounced = debounce(function() {
       ctx = this;
@@ -47,6 +47,10 @@ describe('debounce', function() {
     debounced.call(11);
     debounced.call(22);
     setTimeout(function() {
+      /**
+       * Not sure why `ctx` would be 22 in this case, bcausee the second `debounced.call(22)`
+       * would not run, as it was called within the threshold.
+       */
       assert.equal(ctx, 22);
       done();
     }, 15);
