@@ -51,7 +51,7 @@ describe('transmitter', function() {
       message: 'sos',
       toggle: toggle,
       timeouter: timeouter
-    }
+    };
     transmitter(options, function() {
       assert.deepEqual(toggledHistory, [
         0, 50, 100, 150, 200, 250, 400, 550, 600, 750, 800,
@@ -62,13 +62,13 @@ describe('transmitter', function() {
     clock.tick(1400);
   });
 
-  xit('transmits a message in morse code', function(done) {
+  it('transmits a message in morse code', function(done) {
     var options = {
       codes: codes,
       message: 'this is a message',
       toggle: toggle,
       timeouter: timeouter
-    }
+    };
     transmitter(options, function() {
       assert.deepEqual(toggledHistory, [
         0, 150, 300, 350, 400, 450, 500, 550, 600, 650,

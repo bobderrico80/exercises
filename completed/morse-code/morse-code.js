@@ -13,17 +13,38 @@ function transmitter(options, callback) {
   var codes = options.codes;
   var timer = options.timeouter;
 
-  // convert message into an array of characters
-  var characters = options.message.split('');
+  // split message into words
+  var words = options.message.split(' ');
 
-  // get sequence for the word
-  var sequence = getSequenceForWord(characters);
+  // get the sequence for the message
+  var sequence = getSequenceForMessage(words);
 
-  // push the callback into the sequence.
+  // push the callback at the end of the sequence.
   sequence.push(callback);
 
   // run it
   runSequence(sequence);
+
+  // Helper function to get sequence for the message
+  function getSequenceForMessage(words) {
+    return words.reduce(function(fullSequence, word, i, words) {
+      // convert word into an array of characters
+      var characters = word.split('');
+
+      // get sequcne for the word
+      var wordSequence = getSequenceForWord(characters);
+
+      // add the word sequence to the full sequence
+      fullSequence = fullSequence.concat(wordSequence);
+
+      // if we are not on the last word, add the space
+      if (i < words.length - 1) {
+        fullSequence.push(SPACE);
+      }
+
+      return fullSequence;
+    }, []);
+  }
 
   // Helper function to get sequence for characters in one word
   function getSequenceForWord(characters) {
@@ -63,8 +84,8 @@ function transmitter(options, callback) {
     return sequence;
   }
 
+  // Helper function to run the whole sequence
   function runSequence(sequence) {
-
     // toggle on to start;
     toggle();
 
@@ -84,9 +105,6 @@ function transmitter(options, callback) {
       return signal;
     }, 0);
   }
-
 }
-
-
 
 module.exports = transmitter;
