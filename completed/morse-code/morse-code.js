@@ -16,21 +16,33 @@ function transmitter(options, callback) {
   // convert message into an array of characters
   var characters = options.message.split('');
 
-  // iterate through characters
-  var sequence = characters.reduce(function(fullSequence, character) {
-    // get the character's sequence.
-    var characterSequence = getSequenceForCharacter(character);
-
-    // add it to the full sequence so far.
-    fullSequence = fullSequence.concat(characterSequence);
-    return fullSequence;
-  }, []);
+  // get sequence for the word
+  var sequence = getSequenceForWord(characters);
 
   // push the callback into the sequence.
   sequence.push(callback);
 
   // run it
   runSequence(sequence);
+
+  // Helper function to get sequence for characters in one word
+  function getSequenceForWord(characters) {
+    // iterate through characters
+    return characters.reduce(function(fullSequence, character, i, characters) {
+      // get the character's sequence.
+      var characterSequence = getSequenceForCharacter(character);
+
+      // add it to the full sequence so far.
+      fullSequence = fullSequence.concat(characterSequence);
+
+      // if we are not on the last character, add a character buffer
+      if (i < characters.length - 1) {
+        fullSequence.push(CHARACTER_BUFFER);
+      }
+
+      return fullSequence;
+    }, []);
+  }
 
   // Helper function to get sequence for one character
   function getSequenceForCharacter(char) {

@@ -45,7 +45,7 @@ describe('transmitter', function() {
   });
 
 
-  xit('transmits a word in morse code', function(done) {
+  it('transmits a word in morse code', function(done) {
     var options = {
       codes: codes,
       message: 'sos',
