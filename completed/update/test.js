@@ -62,14 +62,14 @@ describe('update', function() {
       assert.equal(update(2, {$apply: function(x) { return x * 2; }}), 4);
     });
 
-    xit('should support deep updates', function() {
+    it('should support deep updates', function() {
       assert.deepEqual(update({a: 'b', c: {d: 'e'}}, {c: {d: {$set: 'f'}}}), {
         a: 'b',
         c: {d: 'f'},
       });
     });
 
-    xit('should perform safe hasOwnProperty check', function() {
+    it('should perform safe hasOwnProperty check', function() {
       assert.deepEqual(update({}, {'hasOwnProperty': {$set: 'a'}}), {
         'hasOwnProperty': 'a',
       });

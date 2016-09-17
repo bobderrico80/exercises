@@ -6,11 +6,15 @@
 
 function update(state, changes) {
   'use strict';
+
+  // get a separate reference to hasOwnProperty to avoid collisions if we want
+  // to change the hasOwnProperty on an object.
+  var hasOwnProperty = {}.hasOwnProperty;
   console.log('state:', state);
   console.log('changes:', changes);
 
   // check for the $set command
-  if (changes.hasOwnProperty('$set')) {
+  if (hasOwnProperty.call(changes, '$set')) {
     // if so, return the value of the change
     return changes.$set;
   }
@@ -19,7 +23,7 @@ function update(state, changes) {
   var nextState = shallowCopy(state);
 
   // check for the $push command
-  if (changes.hasOwnProperty('$push')) {
+  if (hasOwnProperty.call(changes, '$push')) {
     // iterate through the array of changes and push into the next state
     changes.$push.forEach(function(item) {
       nextState.push(item);
@@ -28,7 +32,7 @@ function update(state, changes) {
   }
 
   // check for $unshift command
-  if (changes.hasOwnProperty('$unshift')) {
+  if (hasOwnProperty.call(changes, '$unshift')) {
     // iterate through the array of changes and unshift into the next state.
     changes.$unshift.forEach(function(item) {
       nextState.unshift(item);
@@ -37,7 +41,7 @@ function update(state, changes) {
   }
 
   // check for $splice command
-  if (changes.hasOwnProperty('$splice')) {
+  if (hasOwnProperty.call(changes, '$splice')) {
     // iterate through the array of splice arguments.
     changes.$splice.forEach(function(splice_args) {
       // call splice on next state with the args
@@ -47,13 +51,13 @@ function update(state, changes) {
   }
 
   // check for $merge command
-  if (changes.hasOwnProperty('$merge')) {
+  if (hasOwnProperty.call(changes, '$merge')) {
     // use assign helper function to copy the contents of the changes into the current.
     return assign(nextState, changes.$merge);
   }
 
   // check for $apply command
-  if (changes.hasOwnProperty('$apply')) {
+  if (hasOwnProperty.call(changes, '$apply')) {
     // call the function at $apply, passing it the current state, and return the results;
     return changes.$apply(nextState);
   }
