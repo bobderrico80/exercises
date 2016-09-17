@@ -21,10 +21,41 @@ function update(state, changes) {
   // check for the $push command
   if (changes.hasOwnProperty('$push')) {
     // iterate through the array of changes and push into the next state
-    changes.$push.forEach(function (item) {
+    changes.$push.forEach(function(item) {
       nextState.push(item);
     });
     return nextState;
+  }
+
+  // check for $unshift command
+  if (changes.hasOwnProperty('$unshift')) {
+    // iterate through the array of changes and unshift into the next state.
+    changes.$unshift.forEach(function(item) {
+      nextState.unshift(item);
+    });
+    return nextState;
+  }
+
+  // check for $splice command
+  if (changes.hasOwnProperty('$splice')) {
+    // iterate through the array of splice arguments.
+    changes.$splice.forEach(function(splice_args) {
+      // call splice on next state with the args
+      nextState.splice.apply(nextState, splice_args);
+    });
+    return nextState;
+  }
+
+  // check for $merge command
+  if (changes.hasOwnProperty('$merge')) {
+    // use assign helper function to copy the contents of the changes into the current.
+    return assign(nextState, changes.$merge);
+  }
+
+  // check for $apply command
+  if (changes.hasOwnProperty('$apply')) {
+    // call the function at $apply, passing it the current state, and return the results;
+    return changes.$apply(nextState);
   }
 
   // check changes to see if there is another level of changes to be made.
@@ -44,15 +75,14 @@ function shallowCopy(object) {
   }
   // if it's an object, make the copy.
   if (object && typeof object === 'object') {
-    return assign(object);
+    return assign({}, object);
   }
   // otherwise, just return it.
   return object;
 }
 
 // Helper function to do the work of copying the object
-function assign(source) {
-  var target = {};
+function assign(target, source) {
 
   // iterate over object properties
   for (var key in source) {

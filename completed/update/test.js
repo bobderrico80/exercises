@@ -42,15 +42,15 @@ describe('update', function() {
       assert.deepEqual(update([1], {$push: [7]}), [1, 7]);
     });
 
-    xit('should support unshift', function() {
+    it('should support unshift', function() {
       assert.deepEqual(update([1], {$unshift: [7]}), [7, 1]);
     });
 
-    xit('should support splice', function() {
+    it('should support splice', function() {
       assert.deepEqual(update([1, 4, 3], {$splice: [[1, 1, 2]]}), [1, 2, 3]);
     });
 
-    xit('should support merge', function() {
+    it('should support merge', function() {
       assert.deepEqual(update({a: 'b'}, {$merge: {c: 'd'}}), {a: 'b', c: 'd'});
     });
 
@@ -58,7 +58,7 @@ describe('update', function() {
       assert.deepEqual(update({a: 'b'}, {$set: {c: 'd'}}), {c: 'd'});
     });
 
-    xit('should support apply', function() {
+    it('should support apply', function() {
       assert.equal(update(2, {$apply: function(x) { return x * 2; }}), 4);
     });
 
