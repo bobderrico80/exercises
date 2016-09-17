@@ -3,10 +3,13 @@
  * by looking at React's source code for this function to see how they did it.
  * While I was not able to work it out on my own, I did learn a lot in the process.
  */
+
 function update(state, changes) {
   'use strict';
+  console.log('state:', state);
+  console.log('changes:', changes);
 
-  // check if there are changes to be made
+  // check for the $set command
   if (changes.hasOwnProperty('$set')) {
     // if so, return the value of the change
     return changes.$set;
@@ -14,6 +17,15 @@ function update(state, changes) {
 
   // make a copy of the current state
   var nextState = shallowCopy(state);
+
+  // check for the $push command
+  if (changes.hasOwnProperty('$push')) {
+    // iterate through the array of changes and push into the next state
+    changes.$push.forEach(function (item) {
+      nextState.push(item);
+    });
+    return nextState;
+  }
 
   // check changes to see if there is another level of changes to be made.
   for (var key in changes) {
@@ -26,6 +38,10 @@ function update(state, changes) {
 
 // Helper function to make a shallow copy of an object
 function shallowCopy(object) {
+  // if it's an array, return a copy of it.
+  if (Array.isArray(object)) {
+    return object.concat();
+  }
   // if it's an object, make the copy.
   if (object && typeof object === 'object') {
     return assign(object);

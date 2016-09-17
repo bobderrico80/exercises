@@ -35,22 +35,22 @@ describe('update', function() {
 
 
 
-  xdescribe("can pass react's test suite", function() {
+  describe("can pass react's test suite", function() {
 
 
     it('should support push', function() {
       assert.deepEqual(update([1], {$push: [7]}), [1, 7]);
     });
 
-    it('should support unshift', function() {
+    xit('should support unshift', function() {
       assert.deepEqual(update([1], {$unshift: [7]}), [7, 1]);
     });
 
-    it('should support splice', function() {
+    xit('should support splice', function() {
       assert.deepEqual(update([1, 4, 3], {$splice: [[1, 1, 2]]}), [1, 2, 3]);
     });
 
-    it('should support merge', function() {
+    xit('should support merge', function() {
       assert.deepEqual(update({a: 'b'}, {$merge: {c: 'd'}}), {a: 'b', c: 'd'});
     });
 
@@ -58,18 +58,18 @@ describe('update', function() {
       assert.deepEqual(update({a: 'b'}, {$set: {c: 'd'}}), {c: 'd'});
     });
 
-    it('should support apply', function() {
+    xit('should support apply', function() {
       assert.equal(update(2, {$apply: function(x) { return x * 2; }}), 4);
     });
 
-    it('should support deep updates', function() {
+    xit('should support deep updates', function() {
       assert.deepEqual(update({a: 'b', c: {d: 'e'}}, {c: {d: {$set: 'f'}}}), {
         a: 'b',
         c: {d: 'f'},
       });
     });
 
-    it('should perform safe hasOwnProperty check', function() {
+    xit('should perform safe hasOwnProperty check', function() {
       assert.deepEqual(update({}, {'hasOwnProperty': {$set: 'a'}}), {
         'hasOwnProperty': 'a',
       });
