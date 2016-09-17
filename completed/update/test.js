@@ -22,11 +22,11 @@ describe('update', function() {
       assert(state.a.c !== nextState.a.c);
     });
 
-    xit('reuses state on different branches', function() {
+    it('reuses state on different branches', function() {
       assert(state.unChanged === nextState.unChanged);
     });
 
-    xit('reuses state on same level', function() {
+    it('reuses state on same level', function() {
       assert(state.a.b === state.a.b);
     });
 
