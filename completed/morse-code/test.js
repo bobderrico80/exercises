@@ -1,6 +1,6 @@
 var assert = require('assert');
 var sinon = require('sinon');
-var transmitter = require('./');
+var transmitter = require('./morse-code');
 var codes = require('./codes');
 
 describe('transmitter', function() {
@@ -34,7 +34,7 @@ describe('transmitter', function() {
       message: 's',
       toggle: toggle,
       timeouter: timeouter
-    }
+    };
     transmitter(options, function() {
       assert.deepEqual(toggledHistory, [
         0, 50, 100, 150, 200, 250
