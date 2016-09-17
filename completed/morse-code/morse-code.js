@@ -16,7 +16,15 @@ function transmitter(options, callback) {
   // convert message into an array of characters
   var characters = options.message.split('');
 
-  var sequence = getSequenceForCharacter('s');
+  // iterate through characters
+  var sequence = characters.reduce(function(fullSequence, character) {
+    // get the character's sequence.
+    var characterSequence = getSequenceForCharacter(character);
+
+    // add it to the full sequence so far.
+    fullSequence = fullSequence.concat(characterSequence);
+    return fullSequence;
+  }, []);
 
   // push the callback into the sequence.
   sequence.push(callback);
